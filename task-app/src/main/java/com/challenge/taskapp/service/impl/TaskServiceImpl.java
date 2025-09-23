@@ -32,7 +32,7 @@ public final class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskResponse getById(final UUID id) {
+    public TaskResponse find(final UUID id) {
         return taskRepository.findById(id).map(TaskResponse::new).orElseThrow(NotFoundException::new);
     }
 
@@ -64,7 +64,7 @@ public final class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteById(final UUID id) {
+    public void delete(final UUID id) {
         taskRepository.findById(id).orElseThrow(NotFoundException::new);
         taskRepository.deleteById(id);
     }

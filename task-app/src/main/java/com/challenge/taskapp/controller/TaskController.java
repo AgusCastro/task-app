@@ -41,7 +41,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public TaskResponse findById(@PathVariable final UUID id) {
-        return taskService.getById(id);
+        return taskService.find(id);
     }
 
     @PostMapping
@@ -56,6 +56,6 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable final UUID id) {
-        taskService.deleteById(id);
+        taskService.delete(id);
     }
 }

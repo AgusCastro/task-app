@@ -14,9 +14,9 @@ public interface TaskService {
 
     Page<TaskResponse> getAllPaged(Pageable pageable);
     Page<TaskResponse> getAllByStatus(TaskStatus status, Pageable pageable);
-    TaskResponse getById(UUID id) throws NotFoundException;
+    TaskResponse find(UUID id) throws NotFoundException;
     TaskResponse create(AddTaskRequest addTaskRequest);
     TaskResponse update(UUID uuid, UpdateTaskRequest updateTaskRequest) throws NotFoundException, IllegalArgumentException;
-    void deleteById(UUID id);
+    void delete(UUID id);
 
 }
