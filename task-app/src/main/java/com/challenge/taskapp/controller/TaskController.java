@@ -4,6 +4,7 @@ import com.challenge.taskapp.dto.AddTaskRequest;
 import com.challenge.taskapp.dto.TaskResponse;
 import com.challenge.taskapp.dto.UpdateTaskRequest;
 import com.challenge.taskapp.service.TaskService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,12 +36,12 @@ public class TaskController {
     }
 
     @PostMapping
-    public TaskResponse create(@RequestBody final AddTaskRequest newTaskRequest) {
+    public TaskResponse create(@RequestBody @Valid final AddTaskRequest newTaskRequest) {
         return taskService.create(newTaskRequest);
     }
 
     @PutMapping("/{id}")
-    public  TaskResponse update(@PathVariable final UUID id, @RequestBody final UpdateTaskRequest updateTaskRequest) {
+    public  TaskResponse update(@PathVariable final UUID id, @RequestBody @Valid final UpdateTaskRequest updateTaskRequest) {
         return taskService.update(id, updateTaskRequest);
     }
 
