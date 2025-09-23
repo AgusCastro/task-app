@@ -43,7 +43,15 @@ public class GlobalExceptionHandler {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
 
-        final CustomErrorResponse errorResponse = new CustomErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
+        String message = "The parameter '" + ex.getName() + "' is invalid.";
+
+        if (ex.getRequiredType() != null) {
+            String invalidValue = ex.getValue() != null ? ex.getValue().toString() : "null";
+
+            message = String.format("Invalid value '%s' for parameter '%s'", invalidValue, ex.getName());
+        }
+
+        final CustomErrorResponse errorResponse = new CustomErrorResponse(HttpStatus.BAD_REQUEST, message, request);
         log.debug("Returning BAD_REQUEST response for type mismatch");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
@@ -56,16 +64,6 @@ public class GlobalExceptionHandler {
 
         log.debug("Returning NOT_FOUND response for NotFoundException");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-    }
-
-    @ExceptionHandler(MissingTenantIdException.class)
-    public ResponseEntity<CustomErrorResponse> handleMissingTenantIdException(MissingTenantIdException ex, WebRequest request) {
-        log.debug("Handling MissingTenantIdException: {}", ex.getMessage(), ex);
-
-        final CustomErrorResponse errorResponse = new CustomErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
-
-        log.debug("Returning BAD_REQUEST response for MissingTenantIdException");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler(Exception.class)

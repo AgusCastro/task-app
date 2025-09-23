@@ -3,14 +3,16 @@ package com.challenge.taskapp.service.impl;
 import com.challenge.taskapp.dto.AddTaskRequest;
 import com.challenge.taskapp.dto.TaskResponse;
 import com.challenge.taskapp.dto.UpdateTaskRequest;
+import com.challenge.taskapp.enums.TaskStatus;
 import com.challenge.taskapp.exception.NotFoundException;
 import com.challenge.taskapp.model.Task;
 import com.challenge.taskapp.repository.TaskRepository;
 import com.challenge.taskapp.service.TaskService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,8 +22,13 @@ public final class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
 
     @Override
-    public List<TaskResponse> getAll() {
-        return taskRepository.findAll().stream().map(TaskResponse::new).toList();
+    public Page<TaskResponse> getAllPaged(Pageable pageable) {
+        return taskRepository.findAll(pageable).map(TaskResponse::new);
+    }
+
+    @Override
+    public Page<TaskResponse> getAllByStatus(TaskStatus status, Pageable pageable) {
+        return taskRepository.findByStatus(status, pageable).map(TaskResponse::new);
     }
 
     @Override
