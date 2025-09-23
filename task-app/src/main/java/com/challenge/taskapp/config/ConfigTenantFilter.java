@@ -1,4 +1,4 @@
-package com.challenge.taskapp.config.filters;
+package com.challenge.taskapp.config;
 
 import com.challenge.taskapp.tenant.TenantContext;
 import jakarta.servlet.Filter;
@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @Component
 @Order(1)
-class TenantFilter implements Filter {
+class ConfigTenantFilter implements Filter {
 
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response,
