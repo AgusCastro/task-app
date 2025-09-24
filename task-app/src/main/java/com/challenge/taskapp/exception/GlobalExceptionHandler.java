@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<CustomErrorResponse> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, WebRequest request) {
+    public ResponseEntity<CustomErrorResponse> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException ex, final WebRequest request) {
         log.debug("Handling MethodArgumentTypeMismatchException: {}, Required type: {}", ex.getMessage(), ex.getRequiredType(), ex);
 
         // Send 404 (resource not found) when UUID conversion fails
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<CustomErrorResponse> handleNotFoundException(NotFoundException ex, WebRequest request) {
+    public ResponseEntity<CustomErrorResponse> handleNotFoundException(final NotFoundException ex, final WebRequest request) {
         log.debug("Handling NotFoundException: {}", ex.getMessage(), ex);
 
         final CustomErrorResponse errorResponse = new CustomErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request);
@@ -66,8 +66,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
+    @ExceptionHandler(StatusUpdateException.class)
+    public ResponseEntity<CustomErrorResponse> handleStatusUpdateException(final StatusUpdateException ex, final WebRequest request) {
+        log.debug("Handling StatusUpdateException: {}", ex.getMessage(), ex);
+
+        final CustomErrorResponse errorResponse = new CustomErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
+
+        log.debug("Returning BAD_REQUEST response for StatusUpdateException");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<CustomErrorResponse> handleGenericException(WebRequest request) {
+    public ResponseEntity<CustomErrorResponse> handleGenericException(final WebRequest request) {
         log.debug("Handling generic Exception - Internal server error occurred");
 
         final CustomErrorResponse errorResponse = new CustomErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal error.", request);

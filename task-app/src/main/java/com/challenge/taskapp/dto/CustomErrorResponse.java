@@ -25,7 +25,7 @@ public class CustomErrorResponse {
     private String message;
     private String path;
 
-    public CustomErrorResponse(HttpStatus httpStatus, String message, WebRequest path) {
+    public CustomErrorResponse(final HttpStatus httpStatus, final String message, final WebRequest path) {
         this.timestamp = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
         this.status = httpStatus.value();
         this.error = httpStatus.getReasonPhrase();

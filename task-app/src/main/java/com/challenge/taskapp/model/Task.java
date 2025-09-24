@@ -1,6 +1,7 @@
 package com.challenge.taskapp.model;
 
 import com.challenge.taskapp.enums.TaskStatus;
+import com.challenge.taskapp.exception.StatusUpdateException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -62,7 +63,7 @@ public final class Task {
 
     public void setStatus(final TaskStatus newStatus) {
         if (this.status != TaskStatus.IN_PROGRESS && newStatus == TaskStatus.DONE) {
-            throw new IllegalArgumentException("Invalid status");
+            throw new StatusUpdateException("Cannot change status from " + this.status + " to " + newStatus);
         }
         this.status = newStatus;
     }
